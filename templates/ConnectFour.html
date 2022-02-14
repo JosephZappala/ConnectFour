@@ -1,0 +1,485 @@
+<html>
+	<head>
+		<title> Connect 4 </title>
+		<style>
+		body {
+			border-width: 5px;
+			background-color: powderblue;
+			font-family: Gill Sans, Verdana;
+		}
+		h1 {
+			background-color: slategray;
+			font-color: lightsteelblue;
+			text-align: center;
+		}
+		#row1 {
+			float: left;
+			text-align: center;
+			font-size: 60;
+			padding: 0;
+			margin-top: 0px;
+			margin-bottom: 0px;
+		}
+		#row11 {
+			display: flex;
+  			justify-content: center;
+			margin-top: 0px;
+			margin-bottom: 0px;
+		}
+		#row2 {
+			float: left;
+			text-align: center;
+			font-size: 60;
+			padding: 0;
+			margin-top: 0px;
+			margin-bottom: 0px;
+		}
+		#refresh {
+			display: flex;
+  			justify-content: center;
+			font-size: 60;
+			padding: 0;
+			margin-top: 0px;
+			margin-bottom: 0px;
+		}
+		#row22 {
+			display: flex;
+  			justify-content: center;
+			clear: both;
+			text-align: center;
+			font-size: 60;
+			margin-top: 0px;
+			margin-bottom: 0px;
+		}
+		#buttonAtBottom {
+			display: flex;
+  			justify-content: center;
+		}
+		#topLine {
+			display: flex;
+  			justify-content: center;
+		}
+		input {
+			border-left-style: solid;
+			border-left-width: 5px;
+		}
+		
+		</style>
+	</head>
+	<body>
+		<div id="allGames" style="margin: auto; display:none">
+			<h1> All Games </h1>
+			<button id = "row22">Connect Four</button>
+			<button id = "row22">Tic Tac Toe</button>
+		</div>
+		<div id="makeNewGame" style="margin: auto;">
+			<h1> Create New Game </h1>
+			<form action="/makeNewGame" method="POST" id = "postNewGameID">
+				<input type="hidden" name = "newGame" id="newGameID">
+			</form>
+			<select name="gameType" id="gameTypes">
+				<option value="ConnectFour">Connect Four</option>
+  				<option value="TicTacToe">Tic-Tac-Toe</option>
+			</select>
+			<input type="text" name = "newGame_name" style="font-size: 25px;" id="newGameValue" placeholder="Game Key" autofocus>
+			<input type="text" name = "player1_name" style="font-size: 25px;" id="player1Value" placeholder="Red Player">
+			<input type="text" name = "player2_name" style="font-size: 25px;" id="player2Value" placeholder="Yellow Player">
+			<button onclick="makeNewGame()" style="font-size: 25px; border-radius: 10%; height:auto; width:auto;border-width: 3px;">MAKE NEW GAME
+				</button>
+			<button onclick="newGameScreen()" style="font-size: 25px; border-radius: 10%; height:auto; width:auto;border-width: 3px;">GO BACK
+			</button>
+			<p style="font-size: 25px">If the Game Key does not work, it has already been used. Try another one.</p>
+			<p style="font-size: 25px">I also advise you type a name shorter than like 8 characters.</p>
+			<p style="font-size: 25px">Use letters and numbers only.</p>
+	</div>
+	<div id = "TicTacToeScreen" style="margin: auto; display:none">
+		<h1 id="title"> Tic Tac Toe </h1>
+		
+		<div id = "row22">
+			<button id = "buttonTic11" onclick="tic11()" style="cursor:pointer;background-color: white;border-width: 0px; border-radius: 0%;height:150px; width:150px;border-color: black;margin: 0px;"></button>
+			<button id = "buttonTic12" onclick="tic12()"style="cursor:pointer;background-color: white;border-width: 0px;border-right-width:7px;border-left-width:7px;border-radius: 0%;height:150px; width:150px;border-color: black;margin: 0px;"></button>
+			<button id = "buttonTic13" onclick="tic13()"style="cursor:pointer;background-color: white;border-width: 0px; border-radius: 0%;height:150px; width:150px;border-color: black;margin: 0px;"></button>
+		</div>
+		<div id = "row22">
+			<button id = "buttonTic21" onclick="tic21()" style="cursor:pointer;background-color: white;border-width: 0px;border-bottom-width:7px;border-top-width:7px;border-radius: 0%;height:150px; width:150px;border-color: black;margin: 0px;"></button>
+			<button id = "buttonTic22" onclick="tic22()"style="cursor:pointer;background-color: white;border-width: 7px;border-radius: 0%;height:150px; width:150px;border-color: black;margin: 0px;"></button>
+			<button id = "buttonTic23" onclick="tic23()"style="cursor:pointer;background-color: white;border-width: 0px;border-bottom-width:7px;border-top-width:7px;border-radius: 0%;height:150px; width:150px;border-color: black;margin: 0px;"></button>
+		</div>
+		<div id = "row22">
+			<button id = "buttonTic33" onclick="tic31()" style="cursor:pointer;background-color: white;border-width: 0px;border-radius: 0%;height:150px; width:150px;border-color: black;margin: 0px;"></button>
+			<button id = "buttonTic32" onclick="tic32()"style="cursor:pointer;background-color: white;border-width: 0px;border-right-width:7px;border-left-width:7px;border-radius: 0%;height:150px; width:150px;border-color: black;margin: 0px;"></button>
+			<button id = "buttonTic33" onclick="tic33()"style="cursor:pointer;background-color: white;border-width: 0px;border-radius: 0%;height:150px; width:150px;border-color: black;margin: 0px;"></button>
+		</div>
+		<div id = "buttonAtBottom" style="margin: auto;">
+			<button id = "newGameScreen" onclick="newGameScreen()" style="background-color: #DDDDDD;font-size: 25px;border-radius: 10%; height:auto; width:18%;border-width: 3px;">Make New Game
+			</button>
+			<button id = "otherGameScreen" onclick="otherGameScreen()" style="background-color: #DDDDDD;font-size: 25px;border-radius: 10%; height:auto; width:18%;border-width: 3px;">Other Games
+			</button>
+		</div>
+		<p id = "turnTTT" style="text-align: center;font-size:35px;margin-top: 25px;clear: both"></p>
+
+	</div>
+	<div id = "connectFourScreen">
+		<h1 id="title"> Four In A Row </h1>
+		<div id = "topLine">
+			<input type="text" name = "user_name" style="margin-left: -6%; font-size: 25px;height:5%; width:auto;" onkeypress="storeText()" onkeydown="storeText()" onkeyup="storeText()" id="userValue" placeholder="Username">
+			<p id="winner" style="clear: both;font-size: 35px; text-align: center;margin-top: 0px;
+			margin-bottom: 0px;"></p> 
+		<form action="/load-game" method="POST" id = "game">
+			<input type="text" name = "game_name" style="margin-left: 25%; font-size: 25px;height:5%; width:auto;" onkeypress="storeText()" onkeydown="storeText()" onkeyup="storeText()" id="gameValue" placeholder="Game Key">
+		</form>
+		<form action="/" method="POST" id = "postForm">
+			<input type="hidden" name = "post" id="postID">
+		</form>
+		</div>
+	
+		<div id = "row11"> 
+			<button id = "button11" onclick="col1()" style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button12" onclick="col2()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button13" onclick="col3()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button14" onclick="col4()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button15" onclick="col5()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button16" onclick="col6()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button17" onclick="col7()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+		</div>
+		<div id = "row22">
+			<button id = "button21" onclick="col1()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button22" onclick="col2()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button23" onclick="col3()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button24" onclick="col4()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button25" onclick="col5()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button26" onclick="col6()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button27" onclick="col7()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+		</div>
+		<div id = "row22">
+			<button id = "button31" onclick="col1()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button32" onclick="col2()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button33" onclick="col3()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button34" onclick="col4()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button35" onclick="col5()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button36" onclick="col6()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button37" onclick="col7()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+		</div><div id = "row22">
+			<button id = "button41" onclick="col1()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button42" onclick="col2()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button43" onclick="col3()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button44" onclick="col4()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button45" onclick="col5()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button46" onclick="col6()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button47" onclick="col7()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+		</div><div id = "row22">
+			<button id = "button51" onclick="col1()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button52" onclick="col2()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button53" onclick="col3()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button54" onclick="col4()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button55" onclick="col5()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button56" onclick="col6()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button57" onclick="col7()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+		</div><div id = "row22">
+			<button id = "button61" onclick="col1()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button62" onclick="col2()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button63" onclick="col3()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button64" onclick="col4()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button65" onclick="col5()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button66" onclick="col6()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+			<button id = "button67" onclick="col7()"style="cursor:pointer;background-color: white;border-width: 8px;border-radius: 50%;height:80px; width:80px;border-color: black;margin-top: 0px;margin-bottom: 0px;"></button>
+		</div>
+		<div id = "buttonAtBottom" style="margin: auto;">
+			<button id = "newGameScreen" onclick="newGameScreen()" style="background-color: #DDDDDD;font-size: 25px;border-radius: 10%; height:auto; width:18%;border-width: 3px;">Make New Game
+			</button>
+		</div>
+		<p id = "turnCF" style="text-align: center;font-size:35px;margin-top: 25px;clear: both"></p>
+	</div>
+	</body>
+	<script type="text/javascript">
+		document.getElementById("makeNewGame").style.display = "none";
+		function postRefresh() {
+			document.getElementById("game").submit();
+		}
+		function newGameScreen() {
+			var gameScreen = document.getElementById("connectFourScreen");
+			if (gameScreen.style.display === "none") {
+    			gameScreen.style.display = "block";
+    			postRefresh();
+    			document.getElementById("makeNewGame").style.display = "none";
+  			}else {
+    			gameScreen.style.display = "none";
+    			document.getElementById("makeNewGame").style.display = "block";
+
+  			}
+		}
+		function makeNewGame() {
+			if (document.getElementById("newGameValue").value == "") {
+				document.getElementById("newGameValue").placeholder = "Enter Me Please!";
+				return;
+			}
+			if (document.getElementById("player1Value").value == "") {
+				document.getElementById("player1Value").placeholder = "Enter Me Please!";
+				return;
+			}
+			if (document.getElementById("player2Value").value == "") {
+				document.getElementById("player2Value").placeholder = "Enter Me Please!";
+				return;
+			}
+
+			document.getElementById("newGameID").value = String(document.getElementById("newGameValue").value).concat(" ").concat(String(document.getElementById("player1Value").value)).concat(" ").concat(String(document.getElementById("player2Value").value)).concat(" ").concat(String(document.getElementById("gameTypes").value));
+
+			sessionStorage.setItem('user', String(document.getElementById('player1Value').value));
+			sessionStorage.setItem('game', String(document.getElementById('newGameValue').value));
+			document.getElementById("postNewGameID").submit();
+		}
+		
+
+		function col1() {
+			document.getElementById("postID").value = String(document.getElementById("userValue").value).concat(" 1 ").concat(String(document.getElementById("gameValue").value)).concat("ConnectFour").concat(".txt").concat(" ConnectFour");
+			document.getElementById("postForm").submit();
+		}
+		function col2() {
+			document.getElementById("postID").value = String(document.getElementById("userValue").value).concat(" 2 ").concat(String(document.getElementById("gameValue").value)).concat("ConnectFour").concat(".txt").concat(" ConnectFour");
+			document.getElementById("postForm").submit();
+		}
+		function col3() {
+			document.getElementById("postID").value = String(document.getElementById("userValue").value).concat(" 3 ").concat(String(document.getElementById("gameValue").value)).concat("ConnectFour").concat(".txt").concat(" ConnectFour");
+			document.getElementById("postForm").submit();
+		}
+		function col4() {
+			document.getElementById("postID").value = String(document.getElementById("userValue").value).concat(" 4 ").concat(String(document.getElementById("gameValue").value)).concat("ConnectFour").concat(".txt").concat(" ConnectFour");
+			document.getElementById("postForm").submit();
+		}
+		function col5() {
+			document.getElementById("postID").value = String(document.getElementById("userValue").value).concat(" 5 ").concat(String(document.getElementById("gameValue").value)).concat("ConnectFour").concat(".txt").concat(" ConnectFour");
+			document.getElementById("postForm").submit();
+		}
+		function col6() {
+			document.getElementById("postID").value = String(document.getElementById("userValue").value).concat(" 6 ").concat(String(document.getElementById("gameValue").value)).concat("ConnectFour").concat(".txt").concat(" ConnectFour");
+			document.getElementById("postForm").submit();
+		}
+		function col7() {
+			document.getElementById("postID").value = String(document.getElementById("userValue").value).concat(" 7 ").concat(String(document.getElementById("gameValue").value)).concat("ConnectFour").concat(".txt").concat(" ConnectFour");
+			document.getElementById("postForm").submit();
+		}
+		document.getElementById("winner").innerHTML='{{dataWin}}';
+		document.getElementById("turnCF").innerHTML='{{dataTurn}}';
+
+		// saving username
+		var sessionStorage = window.sessionStorage; 	
+		if (!(sessionStorage.getItem('user') == null)){
+			var inputText = sessionStorage.getItem('user');
+			document.getElementById('userValue').value = inputText;
+		} 
+		else
+			document.getElementById('userValue').value = '';
+		// saving game key
+		if (!(sessionStorage.getItem('game') == null)){
+			var inputText = sessionStorage.getItem('game');
+			document.getElementById('gameValue').value = inputText;
+		} 
+		else
+			document.getElementById('gameValue').value = '';
+		function storeText() {
+			sessionStorage.setItem('user', String(document.getElementById('userValue').value));
+			sessionStorage.setItem('game', String(document.getElementById('gameValue').value));
+			document.getElementById("refresh").value = String(document.getElementById('gameValue').value).concat("ConnectFour");
+		}
+		if (document.getElementById("gameValue").value == "")
+			document.getElementById("gameValue").focus();
+
+		if (document.getElementById("userValue").value == "")
+			document.getElementById("userValue").focus();
+
+		if ('{{data[5][0]}}' == 'Y') {
+			document.getElementById("button61").style.background="yellow";
+		}
+		if ('{{data[5][0]}}' == 'R') {
+			document.getElementById("button61").style.background="red";
+		}
+		if ('{{data[5][1]}}' == 'Y')
+			document.getElementById("button62").style.background="yellow";
+		if ('{{data[5][1]}}' == 'R')
+			document.getElementById("button62").style.background="red";
+		if ('{{data[5][2]}}' == 'Y')
+			document.getElementById("button63").style.background="yellow";
+		if ('{{data[5][2]}}' == 'R')
+			document.getElementById("button63").style.background="red";
+		if ('{{data[5][3]}}' == 'Y')
+			document.getElementById("button64").style.background="yellow";
+		if ('{{data[5][3]}}' == 'R')
+			document.getElementById("button64").style.background="red";
+		if ('{{data[5][4]}}' == 'Y')
+			document.getElementById("button65").style.background="yellow";
+		if ('{{data[5][4]}}' == 'R')
+			document.getElementById("button65").style.background="red";
+		if ('{{data[5][5]}}' == 'Y')
+			document.getElementById("button66").style.background="yellow";
+		if ('{{data[5][5]}}' == 'R')
+			document.getElementById("button66").style.background="red";
+		if ('{{data[5][6]}}' == 'Y')
+			document.getElementById("button67").style.background="yellow";
+		if ('{{data[5][6]}}' == 'R')
+			document.getElementById("button67").style.background="red";
+
+		if ('{{data[4][0]}}' == 'Y')
+			document.getElementById("button51").style.background="yellow";
+		if ('{{data[4][0]}}' == 'R')
+			document.getElementById("button51").style.background="red";
+		if ('{{data[4][1]}}' == 'Y')
+			document.getElementById("button52").style.background="yellow";
+		if ('{{data[4][1]}}' == 'R')
+			document.getElementById("button52").style.background="red";
+		if ('{{data[4][2]}}' == 'Y')
+			document.getElementById("button53").style.background="yellow";
+		if ('{{data[4][2]}}' == 'R')
+			document.getElementById("button53").style.background="red";
+		if ('{{data[4][3]}}' == 'Y')
+			document.getElementById("button54").style.background="yellow";
+		if ('{{data[4][3]}}' == 'R')
+			document.getElementById("button54").style.background="red";
+		if ('{{data[4][4]}}' == 'Y')
+			document.getElementById("button55").style.background="yellow";
+		if ('{{data[4][4]}}' == 'R')
+			document.getElementById("button55").style.background="red";
+		if ('{{data[4][5]}}' == 'Y')
+			document.getElementById("button56").style.background="yellow";
+		if ('{{data[4][5]}}' == 'R')
+			document.getElementById("button56").style.background="red";
+		if ('{{data[4][6]}}' == 'Y')
+			document.getElementById("button57").style.background="yellow";
+		if ('{{data[4][6]}}' == 'R')
+			document.getElementById("button57").style.background="red";
+
+		if ('{{data[3][0]}}' == 'Y')
+			document.getElementById("button41").style.background="yellow";
+		if ('{{data[3][0]}}' == 'R')
+			document.getElementById("button41").style.background="red";
+		if ('{{data[3][1]}}' == 'Y')
+			document.getElementById("button42").style.background="yellow";
+		if ('{{data[3][1]}}' == 'R')
+			document.getElementById("button42").style.background="red";
+		if ('{{data[3][2]}}' == 'Y')
+			document.getElementById("button43").style.background="yellow";
+		if ('{{data[3][2]}}' == 'R')
+			document.getElementById("button43").style.background="red";
+		if ('{{data[3][3]}}' == 'Y')
+			document.getElementById("button44").style.background="yellow";
+		if ('{{data[3][3]}}' == 'R')
+			document.getElementById("button44").style.background="red";
+		if ('{{data[3][4]}}' == 'Y')
+			document.getElementById("button45").style.background="yellow";
+		if ('{{data[3][4]}}' == 'R')
+			document.getElementById("button45").style.background="red";
+		if ('{{data[3][5]}}' == 'Y')
+			document.getElementById("button46").style.background="yellow";
+		if ('{{data[3][5]}}' == 'R')
+			document.getElementById("button46").style.background="red";
+		if ('{{data[3][6]}}' == 'Y')
+			document.getElementById("button47").style.background="yellow";
+		if ('{{data[3][6]}}' == 'R')
+			document.getElementById("button47").style.background="red";
+
+		if ('{{data[2][0]}}' == 'Y')
+			document.getElementById("button31").style.background="yellow";
+		if ('{{data[2][0]}}' == 'R')
+			document.getElementById("button31").style.background="red";
+		if ('{{data[2][1]}}' == 'Y')
+			document.getElementById("button32").style.background="yellow";
+		if ('{{data[2][1]}}' == 'R')
+			document.getElementById("button32").style.background="red";
+		if ('{{data[2][2]}}' == 'Y')
+			document.getElementById("button33").style.background="yellow";
+		if ('{{data[2][2]}}' == 'R')
+			document.getElementById("button33").style.background="red";
+		if ('{{data[2][3]}}' == 'Y')
+			document.getElementById("button34").style.background="yellow";
+		if ('{{data[2][3]}}' == 'R')
+			document.getElementById("button34").style.background="red";
+		if ('{{data[2][4]}}' == 'Y')
+			document.getElementById("button35").style.background="yellow";
+		if ('{{data[2][4]}}' == 'R')
+			document.getElementById("button35").style.background="red";
+		if ('{{data[2][5]}}' == 'Y')
+			document.getElementById("button36").style.background="yellow";
+		if ('{{data[2][5]}}' == 'R')
+			document.getElementById("button36").style.background="red";
+		if ('{{data[2][6]}}' == 'Y')
+			document.getElementById("button37").style.background="yellow";
+		if ('{{data[2][6]}}' == 'R')
+			document.getElementById("button37").style.background="red";
+
+		if ('{{data[1][0]}}' == 'Y')
+			document.getElementById("button21").style.background="yellow";
+		if ('{{data[1][0]}}' == 'R')
+			document.getElementById("button21").style.background="red";
+		if ('{{data[1][1]}}' == 'Y')
+			document.getElementById("button22").style.background="yellow";
+		if ('{{data[1][1]}}' == 'R')
+			document.getElementById("button22").style.background="red";
+		if ('{{data[1][2]}}' == 'Y')
+			document.getElementById("button23").style.background="yellow";
+		if ('{{data[1][2]}}' == 'R')
+			document.getElementById("button23").style.background="red";
+		if ('{{data[1][3]}}' == 'Y')
+			document.getElementById("button24").style.background="yellow";
+		if ('{{data[1][3]}}' == 'R')
+			document.getElementById("button24").style.background="red";
+		if ('{{data[1][4]}}' == 'Y')
+			document.getElementById("button25").style.background="yellow";
+		if ('{{data[1][4]}}' == 'R')
+			document.getElementById("button25").style.background="red";
+		if ('{{data[1][5]}}' == 'Y')
+			document.getElementById("button26").style.background="yellow";
+		if ('{{data[1][5]}}' == 'R')
+			document.getElementById("button26").style.background="red";
+		if ('{{data[1][6]}}' == 'Y')
+			document.getElementById("button27").style.background="yellow";
+		if ('{{data[1][6]}}' == 'R')
+			document.getElementById("button27").style.background="red";
+
+		if ('{{data[0][0]}}' == 'Y')
+			document.getElementById("button11").style.background="yellow";
+		if ('{{data[0][0]}}' == 'R')
+			document.getElementById("button11").style.background="red";
+		if ('{{data[0][1]}}' == 'Y')
+			document.getElementById("button12").style.background="yellow";
+		if ('{{data[0][1]}}' == 'R')
+			document.getElementById("button12").style.background="red";
+		if ('{{data[0][2]}}' == 'Y')
+			document.getElementById("button13").style.background="yellow";
+		if ('{{data[0][2]}}' == 'R')
+			document.getElementById("button13").style.background="red";
+		if ('{{data[0][3]}}' == 'Y')
+			document.getElementById("button14").style.background="yellow";
+		if ('{{data[0][3]}}' == 'R')
+			document.getElementById("button14").style.background="red";
+		if ('{{data[0][4]}}' == 'Y')
+			document.getElementById("button15").style.background="yellow";
+		if ('{{data[0][4]}}' == 'R')
+			document.getElementById("button15").style.background="red";
+		if ('{{data[0][5]}}' == 'Y')
+			document.getElementById("button16").style.background="yellow";
+		if ('{{data[0][5]}}' == 'R')
+			document.getElementById("button16").style.background="red";
+		if ('{{data[0][6]}}' == 'Y')
+			document.getElementById("button17").style.background="yellow";
+		if ('{{data[0][6]}}' == 'R')
+			document.getElementById("button17").style.background="red";
+
+
+		window.onscroll = scrollSave;
+		if (!(sessionStorage.getItem('scroll') == null)){
+				var yStored = parseInt(sessionStorage.getItem('scroll'));
+				window.scrollTo(0, yStored);
+			}
+
+		function scrollSave() {
+			sessionStorage.setItem('scroll', String(window.pageYOffset));
+		}
+
+
+		setTimeout(function(){
+			if (document.getElementById("makeNewGame").style.display === "none") {
+   				postRefresh();
+   			}
+		}, 4000);
+		
+	</script>
+</html>
